@@ -4,4 +4,7 @@ from django.urls import reverse
 
 # Create your views here.
 def index(request):
-    return HttpResponseRedirect(reverse('blog'))
+    if request.user.is_authenticated:
+        return HttpResponseRedirect(reverse('blog'))
+    else:
+        return HttpResponseRedirect(reverse('signup'))
