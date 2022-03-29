@@ -1,6 +1,6 @@
 
 import uuid
-from django.shortcuts import redirect, render,HttpResponseRedirect
+from django.shortcuts import get_object_or_404, redirect, render,HttpResponseRedirect
 from django.urls import reverse_lazy,reverse
 from django.views.generic import CreateView, DeleteView, UpdateView, ListView
 from . models import Blog,Commnet,Likes
@@ -24,5 +24,8 @@ class BlogList(ListView):
     model = Blog
     template_name = 'app_blog/index.html'
 
-# def index(request):
-#     return render(request,'app_blog/index.html',)
+def blog_details(request,slug):
+    # blog = get_object_or_404(slug=given url string) # it function use when '<slug:string>/'
+    blog = Blog.objects.get(slug=slug)
+    return render(request,'app_blog/blog_details.html',context={'blog':blog})
+

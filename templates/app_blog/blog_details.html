@@ -9,21 +9,19 @@
             <div class="row gx-4 gx-lg-5 justify-content-center">
                 <div class="col-md-10 col-lg-8 col-xl-7">
                     <!-- Post preview-->
-                    {% for blog in blogs %}
                         <div class="post-preview">
                                 <h2 class="post-title">{{blog.blog_title}}</h2>
-                                <p class="post-subtitle">{{blog.blog_content|range_filter|linebreaks}}
-                                    <a href="{{blog.slug}}" class="text-danger">Read More</a>
+                                <p class="post-meta">
+                                    Posted by
+                                    <a href="#!">{{blog.author.username}}</a>
+                                    {{blog.publish_date}}
                                 </p>
-                            <p class="post-meta">
-                                Posted by
-                                <a href="#!">{{blog.author.username}}</a>
-                                {{blog.publish_date}}
-                            </p>
+                                <p class="post-subtitle">{{blog.blog_content|linebreaks}}</p>
+                                <img src="{{blog.blog_image.url}}" width="600px" height="400px" alt="">
+                            
                         </div>
                         <!-- Divider-->
                         <hr class="my-4" /> 
-                    {% endfor %}
                     <!-- Pager-->
                     <div class="d-flex justify-content-end mb-4"><a class="btn btn-primary text-uppercase" href="#!">Older Posts →</a></div>
                 </div>
