@@ -1,7 +1,8 @@
+
 import uuid
 from django.shortcuts import redirect, render,HttpResponseRedirect
 from django.urls import reverse_lazy,reverse
-from django.views.generic.edit import CreateView, DeleteView, UpdateView
+from django.views.generic import CreateView, DeleteView, UpdateView, ListView
 from . models import Blog,Commnet,Likes
 
 # Create your views here.
@@ -18,7 +19,10 @@ class CreateBlogs(CreateView):
         obj.save()
         return redirect('index')
 
-       
+class BlogList(ListView):
+    context_object_name = 'blogs'
+    model = Blog
+    template_name = 'app_blog/index.html'
 
-def index(request):
-    return render(request,'app_blog/index.html',)
+# def index(request):
+#     return render(request,'app_blog/index.html',)
