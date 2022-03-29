@@ -62,7 +62,6 @@ def edit_password(request):
 
 @login_required
 def add_profile_picture(request):
-    # current_user = request.user
     form = AddProfilePicture()
     if request.method=='POST':
         form = AddProfilePicture(request.POST,request.FILES)
