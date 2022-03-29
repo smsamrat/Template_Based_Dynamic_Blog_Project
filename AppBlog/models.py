@@ -1,3 +1,5 @@
+from distutils.command.upload import upload
+from operator import mod
 from django.db import models
 from django.contrib.auth.models import User
 
@@ -8,6 +10,7 @@ class Blog(models.Model):
     blog_title = models.CharField(max_length=200,blank=False, null=False)
     slug = models.SlugField(max_length=200,unique=True)
     blog_content = models.TextField(blank=False, null=False)
+    blog_image = models.ImageField(upload_to="blog_image")
     publish_date = models.DateTimeField(auto_now_add=True)
     update_date = models.DateTimeField(auto_now=True)
 
