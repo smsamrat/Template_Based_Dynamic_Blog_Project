@@ -4,6 +4,7 @@ from django.shortcuts import get_object_or_404, redirect, render,HttpResponseRed
 from django.urls import reverse_lazy,reverse
 from django.views.generic import CreateView, DeleteView, UpdateView, ListView
 from . models import Blog,Commnet,Likes
+from . forms import CommentForm
 
 # Create your views here.
 class CreateBlogs(CreateView):
@@ -27,5 +28,17 @@ class BlogList(ListView):
 def blog_details(request,slug):
     # blog = get_object_or_404(slug=given url string) # it function use when '<slug:string>/'
     blog = Blog.objects.get(slug=slug)
-    return render(request,'app_blog/blog_details.html',context={'blog':blog})
+    form = CommentForm()
+    if request.method == 'POST':
+        form = CommentForm(request.POST)
+        if form.is_valid():
+            comment_obj = form.save(commit=False)
+            comment_obj.user = request.user
+            comment_obj.blog = blog
+            comment_obj.save()
+            return HttpResponseRedirect(reverse('blog_details', kwargs={'slug':slug}))
+
+    return render(request,'app_blog/blog_details.html',context={'blog':blog,'form':form})
+
+
 
