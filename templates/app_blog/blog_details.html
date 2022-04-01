@@ -15,7 +15,8 @@
                                 <p class="post-meta">
                                     Posted by
                                     <a href="#!">{{blog.author.username}}</a>
-                                    {{blog.publish_date}}
+                                    {{blog.publish_date}} <br>
+                                    {{blog.blog_comment.count}} Comment
                                 </p>
                                 <p class="post-subtitle">{{blog.blog_content|linebreaks}}</p>
                                 <img src="{{blog.blog_image.url}}" width="600px" height="400px" alt="">
@@ -36,6 +37,9 @@
                     <p><a href="">@{{comment.user}}</a> <br>
                         {{comment.comment_text}} <br>{{comment.comment_date}}
                     </p>
+                    {% if comment.user == user %}
+                    <p><a href="{% url 'update_comment' pk=comment.pk %}">Update Comment</a></p>
+                    {% endif %}
                     {% endfor %}
                 </div>
                 <div class="col-md-6">

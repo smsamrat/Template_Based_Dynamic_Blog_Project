@@ -1,4 +1,5 @@
 
+from dataclasses import fields
 import uuid
 from django.shortcuts import get_object_or_404, redirect, render,HttpResponseRedirect
 from django.urls import reverse_lazy,reverse
@@ -39,6 +40,15 @@ def blog_details(request,slug):
             return HttpResponseRedirect(reverse('blog_details', kwargs={'slug':slug}))
 
     return render(request,'app_blog/blog_details.html',context={'blog':blog,'form':form})
+
+class UpdateComment(UpdateView):
+    model = Commnet
+    template_name = 'app_blog/update_comment.html'
+    fields = ('comment_text',)
+    
+    def get_success_url(self,**kwargs):
+        return reverse_lazy('blog_details', kwargs={'slug':self.object.blog.slug})
+
 
 
 
