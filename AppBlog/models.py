@@ -37,7 +37,7 @@ class Likes(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='user_like')
     blog = models.ForeignKey(Blog, on_delete=models.CASCADE, related_name='blog_like')
     def __str__(self):
-        return self.user+"Likes"+self.blog
+        return f'{self.user} Likes {self.blog}'
     class Meta:
         verbose_name = 'Likes'
         verbose_name_plural = 'Likes'

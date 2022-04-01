@@ -16,11 +16,15 @@
                                     Posted by
                                     <a href="#!">{{blog.author.username}}</a>
                                     {{blog.publish_date}} <br>
-                                    {{blog.blog_comment.count}} Comment
+                                    {{blog.blog_comment.count}} Comment, {{blog.blog_like.count}} Like
                                 </p>
                                 <p class="post-subtitle">{{blog.blog_content|linebreaks}}</p>
-                                <img src="{{blog.blog_image.url}}" width="600px" height="400px" alt="">
-                            
+                                <img src="{{blog.blog_image.url}}" width="600px" height="400px" alt=""><br><br>
+                                {% if liked %}
+                                <p><a href="{% url 'blog_dislike' pk=blog.pk%}"><i class="fa-solid fa-thumbs-down fa-2x text-danger"></i></a></p>
+                                {% else %}
+                                <p><a href="{% url 'blog_like' pk=blog.pk%}"><i class="fa-solid fa-thumbs-up fa-2x text-secondary "></i></a></p>  
+                                {% endif %}
                         </div>
                         <!-- Divider-->
                         <hr class="my-4" /> 
