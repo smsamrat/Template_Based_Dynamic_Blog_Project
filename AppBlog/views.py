@@ -2,14 +2,14 @@
 import uuid
 from django.shortcuts import get_object_or_404, redirect, render,HttpResponseRedirect
 from django.urls import reverse_lazy,reverse
-from django.views.generic import CreateView, DeleteView, UpdateView, ListView
+from django.views.generic import CreateView, DeleteView, UpdateView, ListView, DetailView,TemplateView
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
 from . models import Blog,Commnet,Likes
 from . forms import CommentForm
 
 # Create your views here.
-class CreateBlogs(CreateView):
+class CreateBlogs(LoginRequiredMixin,CreateView):
     model = Blog
     template_name = 'app_blog/create_blog.html'
     fields=('blog_title','blog_content','blog_image')
@@ -21,12 +21,17 @@ class CreateBlogs(CreateView):
         obj.slug = title.replace(" ", "-") + "-" + str(uuid.uuid4())
         obj.save()
         return redirect('index')
+class MyBlogView(TemplateView):
+    context_object_name = 'blogs'
+    model= Blog
+    template_name = template_name = 'app_blog/myblog.html'
 
-class BlogList(ListView):
+class BlogList(LoginRequiredMixin,ListView):
     context_object_name = 'blogs'
     model = Blog
     template_name = 'app_blog/index.html'
-
+    
+@login_required
 def blog_details(request,slug):
     # blog = get_object_or_404(slug=given url string) # it function use when '<slug:string>/'
     blog = Blog.objects.get(slug=slug)
@@ -46,6 +51,9 @@ def blog_details(request,slug):
             return HttpResponseRedirect(reverse('blog_details', kwargs={'slug':slug}))
 
     return render(request,'app_blog/blog_details.html',context={'blog':blog,'form':form,'liked':liked})
+
+class MyBlog(LoginRequiredMixin,DetailView):
+    pass
 
 class UpdateComment(UpdateView):
     model = Commnet
