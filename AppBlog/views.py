@@ -1,4 +1,5 @@
 
+from dataclasses import field
 import uuid
 from django.shortcuts import get_object_or_404, redirect, render,HttpResponseRedirect
 from django.urls import reverse_lazy,reverse
@@ -25,6 +26,14 @@ class MyBlogView(TemplateView):
     context_object_name = 'blogs'
     model= Blog
     template_name = template_name = 'app_blog/myblog.html'
+
+class EditBlog(LoginRequiredMixin,UpdateView):
+    model = Blog
+    fields=('blog_title','blog_content','blog_image')
+    template_name = template_name = 'app_blog/edit_blog.html'
+
+    def get_success_url(self):
+        return reverse_lazy('my_blog')
 
 class BlogList(LoginRequiredMixin,ListView):
     context_object_name = 'blogs'

@@ -21,6 +21,8 @@
                                 {{blog.publish_date}}
                             </p>
                         </div>
+
+                        <p><a href="{%url 'edit_blog' pk=blog.pk%}">Edit Your Blog</a></p>
                         <!-- Divider-->
                         <hr class="my-4" /> 
                     {% endfor %}
