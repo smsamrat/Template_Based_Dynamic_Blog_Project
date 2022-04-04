@@ -8,6 +8,9 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
 from . models import Blog,Commnet,Likes
 from . forms import CommentForm
+# from django.core.paginator import Paginator
+# from django.core.paginator import EmptyPage
+# from django.core.paginator import PageNotAnInteger
 
 # Create your views here.
 class CreateBlogs(LoginRequiredMixin,CreateView):
@@ -38,7 +41,24 @@ class EditBlog(LoginRequiredMixin,UpdateView):
 class BlogList(LoginRequiredMixin,ListView):
     context_object_name = 'blogs'
     model = Blog
+    paginate_by = 3
     template_name = 'app_blog/index.html'
+    # def get_context_data(self, **kwargs):
+    #     context = super(BlogList, self).get_context_data(**kwargs) 
+    #     list_exam = Blog.objects.all()
+    #     paginator = Paginator(list_exam, self.paginate_by)
+
+    #     page = self.request.GET.get('page')
+
+    #     try:
+    #         file_exams = paginator.page(page)
+    #     except PageNotAnInteger:
+    #         file_exams = paginator.page(1)
+    #     except EmptyPage:
+    #         file_exams = paginator.page(paginator.num_pages)
+            
+    #     context['list_exams'] = file_exams
+    #     return context
     
 @login_required
 def blog_details(request,slug):
