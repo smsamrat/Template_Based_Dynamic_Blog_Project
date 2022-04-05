@@ -8,9 +8,7 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
 from . models import Blog,Commnet,Likes
 from . forms import CommentForm
-# from django.core.paginator import Paginator
-# from django.core.paginator import EmptyPage
-# from django.core.paginator import PageNotAnInteger
+from django.core.paginator import Paginator
 
 # Create your views here.
 class CreateBlogs(LoginRequiredMixin,CreateView):
@@ -38,28 +36,13 @@ class EditBlog(LoginRequiredMixin,UpdateView):
     def get_success_url(self):
         return reverse_lazy('my_blog')
 
-class BlogList(LoginRequiredMixin,ListView):
-    context_object_name = 'blogs'
-    model = Blog
-    paginate_by = 3
-    template_name = 'app_blog/index.html'
-    # def get_context_data(self, **kwargs):
-    #     context = super(BlogList, self).get_context_data(**kwargs) 
-    #     list_exam = Blog.objects.all()
-    #     paginator = Paginator(list_exam, self.paginate_by)
+def BlogList(request):
+    blog = Blog.objects.all()
+    paginator = Paginator(blog, 2)
+    page_number = request.GET.get('page', 1)
+    page_obj = paginator.get_page(page_number)
+    return render(request, 'app_blog/index.html', { 'blogs': page_obj,'page_number':int(page_number),'paginator':paginator })
 
-    #     page = self.request.GET.get('page')
-
-    #     try:
-    #         file_exams = paginator.page(page)
-    #     except PageNotAnInteger:
-    #         file_exams = paginator.page(1)
-    #     except EmptyPage:
-    #         file_exams = paginator.page(paginator.num_pages)
-            
-    #     context['list_exams'] = file_exams
-    #     return context
-    
 @login_required
 def blog_details(request,slug):
     # blog = get_object_or_404(slug=given url string) # it function use when '<slug:string>/'
