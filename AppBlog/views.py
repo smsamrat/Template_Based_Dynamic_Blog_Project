@@ -9,6 +9,8 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 from . models import Blog,Commnet,Likes
 from . forms import CommentForm
 from django.core.paginator import Paginator
+from django.http import JsonResponse
+from django.core import serializers
 
 # Create your views here.
 class CreateBlogs(LoginRequiredMixin,CreateView):
@@ -38,7 +40,7 @@ class EditBlog(LoginRequiredMixin,UpdateView):
 
 def BlogList(request):
     blog = Blog.objects.all()
-    paginator = Paginator(blog, 2)
+    paginator = Paginator(blog, 2,orphans = 1)
     page_number = request.GET.get('page', 1)
     page_obj = paginator.get_page(page_number)
     return render(request, 'app_blog/index.html', { 'blogs': page_obj,'page_number':int(page_number),'paginator':paginator })
@@ -93,7 +95,21 @@ def blog_disliked(request,pk):
 
 
 
+def loadmoreindex(request):
+    post_obj = Blog.objects.all()[0:5]
+    # post_values = Post.objects.values()[0:5]
+    # print(post_values)
+    total_obj = Blog.objects.count()
+    print(total_obj)
+    return render(request, 'app_blog/loadmore.html', context={'posts': post_obj, 'total_obj': total_obj})
 
-
-
-
+def load_more(request):    
+    offset = request.GET.get('offset')
+    offset_int = int(offset)
+    limit = 2
+    # post_obj = Post.objects.all()[offset_int:offset_int+limit]
+    post_obj = list(Blog.objects.values()[offset_int:offset_int+limit])
+    data = {
+        'posts': post_obj
+    }
+    return JsonResponse(data=data)

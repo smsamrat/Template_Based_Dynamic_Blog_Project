@@ -70,5 +70,19 @@
   {% endif %}
   </ul>
 
+
+
+  {% for page_number in blogs.adjusted_elided_pages %}
+  {% if page_number == blogs.paginator.ELLIPSIS %}
+      {{page_number}}
+  {% else %}
+      <a
+          href="{% url 'blog' page_number %}"
+          class="{% if page_number == page_obj.number %}current{% endif %}"
+      >
+          {{page_number}}
+      </a>
+  {% endif %}
+{% endfor %}
     {% endblock %}
         

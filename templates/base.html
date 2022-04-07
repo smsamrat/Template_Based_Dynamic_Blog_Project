@@ -8,6 +8,7 @@
         <meta name="author" content="" />
         <title>Clean Blog - Start Bootstrap Theme</title>
         <link rel="icon" type="image/x-icon" href="{% static 'assets/favicon.ico' %}" />
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
         <!-- Font Awesome icons (free version)-->
         <script src="{% static 'https://use.fontawesome.com/releases/v6.1.0/js/all.js' %}" crossorigin="anonymous"></script>
         <!-- Google fonts-->
@@ -29,6 +30,7 @@
                 </button>
                 <div class="collapse navbar-collapse" id="navbarResponsive">
                     <ul class="navbar-nav ms-auto py-4 py-lg-0">
+                        <li class="nav-item"><a class="nav-link px-lg-3 py-3 py-lg-4" href="{% url 'loadmoreindex' %}">Load More </a></li>
                         <li class="nav-item"><a class="nav-link px-lg-3 py-3 py-lg-4" href="{% url 'index' %}">Home</a></li>
                         <li class="nav-item"><a class="nav-link px-lg-3 py-3 py-lg-4" href="about.html">About</a></li>
                         <li class="nav-item"><a class="nav-link px-lg-3 py-3 py-lg-4" href="post.html">Sample Post</a></li>
